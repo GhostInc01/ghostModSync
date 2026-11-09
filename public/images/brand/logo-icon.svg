@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44" width="44" height="44" fill="none" role="img" aria-label="GhostModsSync Icon">
+  <defs>
+    <linearGradient id="gms-icon-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00F0FF"/>
+      <stop offset="100%" stop-color="#8B5CF6"/>
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="40" height="40" rx="11" fill="#101522" stroke="url(#gms-icon-grad)" stroke-width="2.2"/>
+  <path d="M14 22C14 17.0294 18.0294 13 23 13H28L25 10M30 22C30 26.9706 25.9706 31 21 31H16L19 34" stroke="#00F0FF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="22" cy="22" r="3.5" fill="#8B5CF6"/>
+</svg>
