@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Models\User;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
@@ -27,6 +29,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Model::shouldBeStrict(! $this->app->isProduction());
+
+        Gate::define('access-admin-dashboard', fn (User $user): bool => (bool) $user->fresh()?->isPlatformAdmin());
+        Gate::define('manage-platform-settings', fn (User $user): bool => (bool) $user->fresh()?->isSuperAdmin());
 
         Password::defaults(function () {
             $rule = Password::min(8);

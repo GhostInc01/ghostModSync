@@ -24,7 +24,14 @@ class StoreGroupRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:120'],
-            'slug' => ['nullable', 'string', 'max:120', 'alpha_dash', Rule::unique('groups', 'slug')],
+            'slug' => [
+                'nullable',
+                'string',
+                'max:120',
+                'alpha_dash',
+                Rule::notIn(['create', 'discover', 'invitations']),
+                Rule::unique('groups', 'slug'),
+            ],
             'tag' => ['nullable', 'string', 'max:16'],
             'description' => ['nullable', 'string', 'max:2000'],
             'visibility' => ['required', Rule::enum(GroupVisibility::class)],

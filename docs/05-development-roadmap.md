@@ -85,6 +85,14 @@ flowchart LR
 
 ---
 
+### Milestone 5.5: User Dashboard — Phase 1 (Completed 2026-11-10)
+**Goal:** Dark `gms`-themed dashboard shell and Overview page (see [13-user-dashboard-implementation-plan.md](13-user-dashboard-implementation-plan.md), [14-user-dashboard-implementation.md](14-user-dashboard-implementation.md), and [15-user-dashboard-qa-report.md](15-user-dashboard-qa-report.md)).
+- Delivered: `<x-dashboard.layout>` + `components/dashboard/*`, `DashboardController`, `GroupDiscoveryController`, `DashboardOverviewService`, `tests/Feature/UserDashboardTest.php`, and `tests/Feature/UserDashboardExtendedTest.php`.
+
+### Milestone 5.6: Platform Administrator Dashboard (Completed 2026-11-10)
+**Goal:** Secure, full-stack `/admin/*` Platform Administrator Dashboard with two-tier platform role enforcement (`SuperAdmin` and `PlatformAdmin`) strictly separated from group-scoped VTC roles (see [16-admin-dashboard-implementation-plan.md](16-admin-dashboard-implementation-plan.md) and [17-admin-dashboard-implementation.md](17-admin-dashboard-implementation.md)).
+- Delivered: `PlatformRole` & `ModerationReportStatus` enums, additive migration `2026_11_10_100011_add_platform_admin_and_moderation_reports_tables.php`, `EnsurePlatformAdmin` middleware (`platform.admin`), `PlatformAnalyticsService`, `PlatformModerationService`, 6 Admin controllers (`AdminDashboardController`, `AdminUserController`, `AdminGroupController`, `AdminModController`, `AdminConvoyProfileController`, `AdminSyncController`, `AdminSettingsController`), 7 Admin `FormRequest` classes, `<x-admin.layout>`, 14 Admin Blade views across all 10 operational sections, and automated PHPUnit feature tests in `tests/Feature/AdminDashboardTest.php`.
+
 ### Milestone 6: Windows Desktop Application (C# / .NET / WPF)
 **Goal:** Build the native Windows client that consumes `/api/v1/*` and synchronises local ETS2/ATS mods.
 - **Tasks:**

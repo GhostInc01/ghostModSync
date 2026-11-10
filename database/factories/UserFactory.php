@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\PlatformRole;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -26,11 +27,18 @@ class UserFactory extends Factory
     {
         return [
             'name' => fake()->name(),
+            'username' => null,
             'email' => fake()->unique()->safeEmail(),
+            'steam_id' => null,
+            'avatar_path' => null,
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
             'is_platform_admin' => false,
+            'platform_role' => null,
+            'last_login_at' => null,
+            'suspended_at' => null,
+            'suspended_reason' => null,
         ];
     }
 
@@ -41,6 +49,28 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    /**
+     * Indicate that the user is a Platform Super Admin.
+     */
+    public function superAdmin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'is_platform_admin' => true,
+            'platform_role' => PlatformRole::SuperAdmin,
+        ]);
+    }
+
+    /**
+     * Indicate that the user is a Platform Administrator.
+     */
+    public function platformAdmin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'is_platform_admin' => false,
+            'platform_role' => PlatformRole::PlatformAdmin,
         ]);
     }
 }

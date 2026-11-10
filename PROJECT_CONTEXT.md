@@ -1,8 +1,8 @@
 # Ghost ModSync — Project Context & Master Technical Reference (`PROJECT_CONTEXT.md`)
 
-**Last Updated:** 2026-11-09  
+**Last Updated:** 2026-11-10 (User Dashboard & Platform Admin Dashboard completed, MySQL migrations applied — see `docs/13` through `docs/18`)  
 **Role:** Permanent Single Source of Truth for Engineers & AI Agents  
-**Status:** Milestones 1–5 Completed (Full Laravel 13 Backend, S3 + Steam Workshop Mods, Dependencies, Convoy Profiles & REST API v1 Ready)
+**Status:** Milestones 1–5.6 Completed (Full Laravel 13 Backend, S3 + Steam Workshop Mods, Dependencies, Convoy Profiles, REST API v1, User Dashboard, Platform Admin Dashboard & MySQL DB Ready)
 
 ---
 
@@ -92,4 +92,10 @@ All architectural and engineering decisions are maintained in `docs/`:
 - [docs/10-group-management.md](file:///c:/xampp/htdocs/ghostModSync/docs/10-group-management.md) — Multi-Tenant Group Management, Role Hierarchy (`Owner`, `Admin`, `Moderator`, `ModManager`, `ConvoyDispatcher`, `Member`), Join Requests, Invitations, and Cross-Group Isolation.
 - [docs/11-device-management.md](file:///c:/xampp/htdocs/ghostModSync/docs/11-device-management.md) — User Device Registration, Multi-PC Lifecycle, Heartbeat, Credential Revocation, and C# WPF Identity Integration.
 - [docs/12-phase-1-quality-report.md](file:///c:/xampp/htdocs/ghostModSync/docs/12-phase-1-quality-report.md) — Phase 1 Integration & Quality Assurance Audit Report, Security Remediations, and Phase 2 Readiness Sign-Off.
+- [docs/13-user-dashboard-implementation-plan.md](file:///c:/xampp/htdocs/ghostModSync/docs/13-user-dashboard-implementation-plan.md) — User Dashboard audit, design, plan and Phase 1 status.
+- [docs/14-user-dashboard-implementation.md](file:///c:/xampp/htdocs/ghostModSync/docs/14-user-dashboard-implementation.md) — User Dashboard full implementation documentation, routes, queries, permissions, and test coverage.
+- [docs/15-user-dashboard-qa-report.md](file:///c:/xampp/htdocs/ghostModSync/docs/15-user-dashboard-qa-report.md) — User Dashboard QA, Security, Performance, and UI/UX Review Report.
+- [docs/16-admin-dashboard-implementation-plan.md](file:///c:/xampp/htdocs/ghostModSync/docs/16-admin-dashboard-implementation-plan.md) — Platform Administrator Dashboard architecture, role hierarchy, security design, and implementation plan.
+- [docs/17-admin-dashboard-implementation.md](file:///c:/xampp/htdocs/ghostModSync/docs/17-admin-dashboard-implementation.md) — Platform Administrator Dashboard full implementation documentation, controllers, services, views, and security test coverage.
+- [docs/18-admin-dashboard-qa-report.md](file:///c:/xampp/htdocs/ghostModSync/docs/18-admin-dashboard-qa-report.md) — Platform Administrator Dashboard QA, Security, Performance, and UI/UX Review Report.
 - [ASSETS_README.md](file:///c:/xampp/htdocs/ghostModSync/ASSETS_README.md) — Welcome Landing Page Brand Assets, Dimensions, Formats, and Replacement Guide (`config/landing/*`).

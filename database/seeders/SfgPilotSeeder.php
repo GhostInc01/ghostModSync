@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use App\Enums\GroupRole;
 use App\Enums\GroupVisibility;
 use App\Enums\MembershipStatus;
+use App\Enums\PlatformRole;
 use App\Enums\SyncPolicyMode;
 use App\Models\Group;
 use App\Models\GroupMembership;
@@ -26,7 +27,10 @@ class SfgPilotSeeder extends Seeder
                 'password' => 'password',
             ]
         );
-        $owner->forceFill(['is_platform_admin' => true])->save();
+        $owner->forceFill([
+            'is_platform_admin' => true,
+            'platform_role' => PlatformRole::SuperAdmin,
+        ])->save();
 
         $sfg = Group::query()->updateOrCreate(
             ['slug' => 'sfg'],

@@ -19,6 +19,24 @@ class EnsureActiveDeviceToken
         $user = $request->user();
         $currentToken = $user?->currentAccessToken();
 
+        $isSuspended = $user !== null && (
+            array_key_exists('suspended_at', $user->getAttributes())
+                ? $user->isSuspended()
+                : (bool) $user->fresh()?->isSuspended()
+        );
+
+        if ($isSuspended) {
+            if ($currentToken instanceof PersonalAccessToken) {
+                $currentToken->delete();
+            }
+
+            return response()->json([
+                'status' => 'error',
+                'error_code' => 'account_suspended',
+                'message' => 'Your account has been suspended by a platform administrator.',
+            ], 403);
+        }
+
         if ($user !== null && $currentToken instanceof PersonalAccessToken) {
             /** @var Device|null $device */
             $device = Device::query()

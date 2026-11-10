@@ -45,7 +45,10 @@ class GroupManagementService
                 ? Str::slug((string) $data['slug'])
                 : Str::slug((string) $data['name']);
 
-            if (Group::withTrashed()->where('slug', $slug)->exists()) {
+            if (
+                in_array($slug, ['create', 'discover', 'invitations'], true)
+                || Group::withTrashed()->where('slug', $slug)->exists()
+            ) {
                 $slug .= '-'.strtolower(Str::random(4));
             }
 

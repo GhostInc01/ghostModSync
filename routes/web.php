@@ -1,9 +1,18 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Web\Admin\AdminConvoyProfileController;
+use App\Http\Controllers\Web\Admin\AdminDashboardController;
+use App\Http\Controllers\Web\Admin\AdminGroupController;
+use App\Http\Controllers\Web\Admin\AdminModController;
+use App\Http\Controllers\Web\Admin\AdminSettingsController;
+use App\Http\Controllers\Web\Admin\AdminSyncController;
+use App\Http\Controllers\Web\Admin\AdminUserController;
 use App\Http\Controllers\Web\ConvoyProfileController;
+use App\Http\Controllers\Web\DashboardController;
 use App\Http\Controllers\Web\DeviceController;
 use App\Http\Controllers\Web\GroupController;
+use App\Http\Controllers\Web\GroupDiscoveryController;
 use App\Http\Controllers\Web\ModController;
 use App\Http\Controllers\Web\WelcomeController;
 use Illuminate\Support\Facades\Route;
@@ -16,9 +25,9 @@ Route::get('/privacy-policy', [WelcomeController::class, 'privacy'])->name('lega
 Route::get('/terms-and-conditions', [WelcomeController::class, 'terms'])->name('legal.terms');
 Route::get('/contact', [WelcomeController::class, 'contact'])->name('legal.contact');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/devices', [DeviceController::class, 'index'])->name('devices.index');
@@ -27,6 +36,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
     Route::get('/groups/create', [GroupController::class, 'create'])->name('groups.create');
+    Route::get('/groups/discover', [GroupDiscoveryController::class, 'index'])->name('groups.discover');
     Route::post('/groups', [GroupController::class, 'store'])->name('groups.store');
     Route::get('/groups/invitations/{token}/accept', [GroupController::class, 'acceptInvitation'])
         ->name('groups.invitations.accept');
@@ -68,6 +78,41 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('groups.profiles.mods.sync');
         Route::patch('/groups/{group}/profiles/{convoyProfile}/approvals/{syncApproval:id}', [ConvoyProfileController::class, 'reviewSyncApproval'])
             ->name('groups.profiles.approvals.review');
+    });
+
+    Route::prefix('admin')->name('admin.')->middleware('platform.admin')->group(function () {
+        Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+        Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
+        Route::get('/users/{user}', [AdminUserController::class, 'show'])->name('users.show');
+        Route::patch('/users/{user}/status', [AdminUserController::class, 'updateStatus'])->name('users.status.update');
+        Route::delete('/users/{user}/devices/{device}', [AdminUserController::class, 'revokeDevice'])->name('users.devices.revoke');
+
+        Route::get('/groups', [AdminGroupController::class, 'index'])->name('groups.index');
+        Route::get('/groups/{groupId}', [AdminGroupController::class, 'show'])->whereNumber('groupId')->name('groups.show');
+        Route::patch('/groups/{groupId}/status', [AdminGroupController::class, 'updateStatus'])->whereNumber('groupId')->name('groups.status.update');
+
+        Route::get('/mods', [AdminModController::class, 'index'])->name('mods.index');
+        Route::get('/mods/{modId}', [AdminModController::class, 'show'])->whereNumber('modId')->name('mods.show');
+        Route::patch('/mod-versions/{modVersion}/status', [AdminModController::class, 'updateVersionStatus'])->name('mod-versions.status.update');
+        Route::patch('/mod-approvals/{approval}', [AdminModController::class, 'reviewApproval'])->name('mod-approvals.review');
+        Route::patch('/moderation-reports/{report}', [AdminModController::class, 'reviewReport'])->name('moderation-reports.review');
+
+        Route::get('/convoys', [AdminConvoyProfileController::class, 'index'])->name('convoys.index');
+        Route::get('/convoys/{profileId}', [AdminConvoyProfileController::class, 'show'])->whereNumber('profileId')->name('convoys.show');
+
+        Route::get('/sync', [AdminSyncController::class, 'index'])->name('sync.index');
+
+        Route::get('/storage', [AdminDashboardController::class, 'storage'])->name('storage.index');
+
+        Route::get('/reports', [AdminDashboardController::class, 'reports'])->name('reports.index');
+        Route::get('/reports/export/{type}', [AdminDashboardController::class, 'exportReport'])->name('reports.export');
+
+        Route::get('/audit-logs', [AdminDashboardController::class, 'auditLogs'])->name('audit-logs.index');
+
+        Route::get('/settings', [AdminSettingsController::class, 'index'])->name('settings.index');
+        Route::post('/settings/game-versions', [AdminSettingsController::class, 'storeGameVersion'])->name('settings.game-versions.store');
+        Route::patch('/settings/games/{game}', [AdminSettingsController::class, 'updateGame'])->name('settings.games.update');
     });
 });
 

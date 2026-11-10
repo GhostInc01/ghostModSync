@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\PlatformRole;
 use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -51,6 +52,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'remember_token',
         'is_platform_admin',
+        'platform_role',
     ];
 
     /**
@@ -64,8 +66,39 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_platform_admin' => 'boolean',
+            'platform_role' => PlatformRole::class,
             'last_login_at' => 'datetime',
+            'suspended_at' => 'datetime',
         ];
+    }
+
+    public function isSuspended(): bool
+    {
+        return $this->suspended_at !== null;
+    }
+
+    public function isPlatformAdmin(): bool
+    {
+        return ! $this->isSuspended() && ($this->is_platform_admin || $this->platform_role !== null);
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        if (! $this->isPlatformAdmin()) {
+            return false;
+        }
+
+        return $this->platform_role === PlatformRole::SuperAdmin
+            || ($this->is_platform_admin && $this->platform_role === null);
+    }
+
+    public function platformRoleLabel(): string
+    {
+        if ($this->platform_role !== null) {
+            return $this->platform_role->label();
+        }
+
+        return $this->is_platform_admin ? PlatformRole::SuperAdmin->label() : 'Standard User';
     }
 
     /**
